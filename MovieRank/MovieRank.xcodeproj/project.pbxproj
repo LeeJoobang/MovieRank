@@ -19,6 +19,7 @@
 		EB84C6D229F818C400361D91 /* MovieRankUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB84C6D129F818C400361D91 /* MovieRankUITests.swift */; };
 		EB84C6D429F818C400361D91 /* MovieRankUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB84C6D329F818C400361D91 /* MovieRankUITestsLaunchTests.swift */; };
 		EB84C6E329F819C300361D91 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB84C6E229F819C300361D91 /* MainViewController.swift */; };
+		EB84C6E729F82CD100361D91 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB84C6E629F82CD100361D91 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		EB84C6D129F818C400361D91 /* MovieRankUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRankUITests.swift; sourceTree = "<group>"; };
 		EB84C6D329F818C400361D91 /* MovieRankUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRankUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		EB84C6E229F819C300361D91 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		EB84C6E629F82CD100361D91 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		ED14E65113BB6AD6FC08C9BE /* Pods_MovieRankTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MovieRankTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				EB84C6E229F819C300361D91 /* MainViewController.swift */,
+				EB84C6E629F82CD100361D91 /* MainView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB84C6E329F819C300361D91 /* MainViewController.swift in Sources */,
+				EB84C6E729F82CD100361D91 /* MainView.swift in Sources */,
 				EB84C6B129F818C200361D91 /* AppDelegate.swift in Sources */,
 				EB84C6B329F818C200361D91 /* SceneDelegate.swift in Sources */,
 			);
