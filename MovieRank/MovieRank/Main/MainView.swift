@@ -21,9 +21,20 @@ class MainView: UIView {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemGray
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: MainViewCell.identifier)
             
         return collectionView
+    }()
+    
+    let image: UIImage = {
+        let image = UIImage()
+        return image
+    }()
+    
+    let label: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .green
+        return label
     }()
     
     override init(frame: CGRect) {
