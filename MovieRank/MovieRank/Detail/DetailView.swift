@@ -1,8 +1,8 @@
 //
-//  MainView.swift
+//  DetailView.swift
 //  MovieRank
 //
-//  Created by Joobang on 2023/04/26.
+//  Created by Joobang on 2023/04/27.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import UIKit
 
 import SnapKit
 
-class MainView: UIView {
+class DetailView: UIView {
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -20,9 +20,10 @@ class MainView: UIView {
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
-        collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: MainViewCell.identifier)
-            
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "DetailCell")
+        collectionView.register(OverviewCell.self, forCellWithReuseIdentifier: OverviewCell.identifier)
+        collectionView.register(PosterViewCell.self, forCellWithReuseIdentifier: PosterViewCell.identifier)
+
         return collectionView
     }()
     
@@ -41,7 +42,10 @@ class MainView: UIView {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
         }
+        
+        collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableView.identifier)
     }
 }

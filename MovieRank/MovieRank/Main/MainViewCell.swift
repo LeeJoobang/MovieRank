@@ -18,7 +18,7 @@ class MainViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .green
+        imageView.backgroundColor = .white
         return imageView
     }()
     
@@ -27,7 +27,7 @@ class MainViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14)
-        label.backgroundColor = .green
+        label.backgroundColor = .white
         return label
     }()
     
