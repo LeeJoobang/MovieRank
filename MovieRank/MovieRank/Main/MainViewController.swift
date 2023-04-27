@@ -45,12 +45,12 @@ class MainViewController: UIViewController{
             self?.mainView.collectionView.reloadData()
         }
         
-        let releaseDateAction = UIAlertAction(title: "발매일", style: .default) { [weak self] _ in
+        let releaseDateAction = UIAlertAction(title: "개봉일", style: .default) { [weak self] _ in
             self?.viewModel.sortMoviesByReleaseDate()
             self?.mainView.collectionView.reloadData()
         }
         
-        let voteAverageAction = UIAlertAction(title: "별점", style: .default) { [weak self] _ in
+        let voteAverageAction = UIAlertAction(title: "평점", style: .default) { [weak self] _ in
             self?.viewModel.sortMoviesByVoteAverage()
             self?.mainView.collectionView.reloadData()
         }
