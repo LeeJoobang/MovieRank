@@ -19,7 +19,6 @@ class OverviewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 17)
-        label.backgroundColor = .blue
         return label
     }()
     

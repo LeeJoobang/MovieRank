@@ -16,20 +16,17 @@ class PosterViewCell: UICollectionViewCell {
     
     let posterImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "square.and.arrow.up")
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .black
         return imageView
     }()
     
     lazy var titlelabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.text = "test"
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 30)
-        label.backgroundColor = .red
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .white
         return label
     }()
     
@@ -37,9 +34,8 @@ class PosterViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.text = "2023-06-09"
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.backgroundColor = .orange
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.textColor = .white
         return label
     }()
     
@@ -47,9 +43,8 @@ class PosterViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.text = "7.777"
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.backgroundColor = .green
+        label.font = UIFont.systemFont(ofSize: 17)
+        label.textColor = .white
         return label
     }()
     
@@ -74,6 +69,7 @@ class PosterViewCell: UICollectionViewCell {
         
         titlelabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
             make.bottom.equalToSuperview().multipliedBy(0.9)
         }
         
@@ -86,6 +82,20 @@ class PosterViewCell: UICollectionViewCell {
             make.top.equalTo(titlelabel.snp.bottom)
             make.leading.equalTo(releaselabel.snp.trailing).offset(5)
         }
+    }
+}
 
+extension PosterViewCell {
+    func setImage(urlString: String, movieManager: MovieManager) {
+        movieManager.downloadImage(posterPath: urlString) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let image):
+                    self?.posterImageView.image = image
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
 }

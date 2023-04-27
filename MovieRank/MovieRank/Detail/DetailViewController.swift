@@ -14,6 +14,9 @@ class DetailViewController: UIViewController {
     
     let detailView = DetailView()
     
+    var movie: Movie?
+    let movieManager = MovieManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -24,6 +27,8 @@ class DetailViewController: UIViewController {
         detailView.collectionView.delegate = self
         
         setUI()
+        
+        
     }
     
     func setUI(){
@@ -48,10 +53,19 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterViewCell.identifier, for: indexPath) as! PosterViewCell
+            cell.titlelabel.text = movie?.title
+            cell.releaselabel.text = movie?.releaseDate
+            cell.ratelabel.text = String(movie?.voteAverage ?? 0)
+            
+            if let posterPath = movie?.posterPath {
+                let imageURL = "https://image.tmdb.org/t/p/w500\(posterPath)"
+                cell.setImage(urlString: imageURL, movieManager: movieManager)
+            }
+            
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OverviewCell.identifier, for: indexPath) as! OverviewCell
-            cell.label.text = "동해물과 동해물과 동해물과 동해물과 동해물과 동해물과 동해물과 동해물과 동해물과 동해물과 동해물과 동해물과 동해물과동해물과동해물과동해물과동해물과동해물과동해물과동해물과동해물과동해물과동해물과동해물과"
+            cell.label.text = movie?.overview
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailCell", for: indexPath)
@@ -64,7 +78,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         switch indexPath.section {
         case 0:
             let width = collectionView.bounds.width
-            let height = collectionView.bounds.height / 2
+            let height = collectionView.bounds.height * 0.7
             return CGSize(width: width, height: height)
         case 1:
             let width = collectionView.bounds.width

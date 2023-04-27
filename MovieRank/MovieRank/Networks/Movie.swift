@@ -41,7 +41,7 @@ class MovieManager{
             }
             
             guard let data = data else {
-                let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Data not found"])
+                let error = NSError(domain: "", code: 0)
                 completion(.failure(error))
                 return
             }
@@ -79,7 +79,7 @@ class MovieManager{
     
     func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>) -> Void) {
         guard let url = URL(string: posterPath) else {
-            let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+            let error = NSError(domain: "", code: 0)
             completion(.failure(error))
             return
         }
@@ -90,7 +90,7 @@ class MovieManager{
                 if let image = UIImage(data: data) {
                     completion(.success(image))
                 } else {
-                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to create UIImage from data"])
+                    let error = NSError(domain: "", code: 0)
                     completion(.failure(error))
                 }
             case .failure(let error):

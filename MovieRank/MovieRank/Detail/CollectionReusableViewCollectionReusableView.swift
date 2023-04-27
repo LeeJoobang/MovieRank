@@ -14,6 +14,7 @@ final class CollectionReusableView: UICollectionReusableView {
     lazy var label: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
+        view.font = UIFont.systemFont(ofSize: 20)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -28,7 +29,6 @@ final class CollectionReusableView: UICollectionReusableView {
     }
     
     private func setUp() {
-        backgroundColor = .gray
         addSubview(label)
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor),

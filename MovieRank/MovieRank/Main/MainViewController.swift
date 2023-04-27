@@ -80,6 +80,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detatilVC = DetailViewController()
+        detatilVC.movie = movies[indexPath.item]
         self.navigationController?.pushViewController(detatilVC, animated: true)
     }
 }
