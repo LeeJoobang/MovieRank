@@ -59,9 +59,10 @@ class MainViewCell: UICollectionViewCell {
     }
 }
 
+
 extension MainViewCell {
-    func setImage(urlString: String, movieManager: MovieManager) {
-        movieManager.downloadImage(posterPath: urlString) { [weak self] result in
+    func setImage(urlString: String, viewModel: ViewModel) {
+        viewModel.downloadImage(posterPath: urlString) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let image):

@@ -39,13 +39,11 @@ class MovieManager{
                 completion(.failure(error))
                 return
             }
-            
             guard let data = data else {
                 let error = NSError(domain: "", code: 0)
                 completion(.failure(error))
                 return
             }
-            
             completion(.success(data))
         }
         dataTask.resume()
@@ -76,14 +74,12 @@ class MovieManager{
         }
     }
     
-    
     func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>) -> Void) {
         guard let url = URL(string: posterPath) else {
             let error = NSError(domain: "", code: 0)
             completion(.failure(error))
             return
         }
-        
         performRequest(url: url) { result in
             switch result {
             case .success(let data):

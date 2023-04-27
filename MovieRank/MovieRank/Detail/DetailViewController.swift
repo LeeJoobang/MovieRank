@@ -15,7 +15,7 @@ class DetailViewController: UIViewController {
     let detailView = DetailView()
     
     var movie: Movie?
-    let movieManager = MovieManager()
+    let viewModel = ViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +26,7 @@ class DetailViewController: UIViewController {
         detailView.collectionView.dataSource = self
         detailView.collectionView.delegate = self
         
-        setUI()
-        
-        
+        setUI()        
     }
     
     func setUI(){
@@ -59,9 +57,8 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
             
             if let posterPath = movie?.posterPath {
                 let imageURL = "https://image.tmdb.org/t/p/w500\(posterPath)"
-                cell.setImage(urlString: imageURL, movieManager: movieManager)
+                cell.setImage(urlString: imageURL, viewModel: viewModel)
             }
-            
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OverviewCell.identifier, for: indexPath) as! OverviewCell
@@ -99,17 +96,15 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
                 header.label.text = ""
             }
             return header
-
         }
         return UICollectionReusableView()
     }
 
     //header
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, ㅇ section: Int) -> CGSize {
         if section == 1 {
             return CGSize(width: collectionView.bounds.width, height: 44)
         }
         return CGSize(width: collectionView.bounds.width, height: 0)
     }
-    
 }

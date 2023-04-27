@@ -13,10 +13,8 @@ import SnapKit
 class MainViewController: UIViewController{
     
     let mainView = MainView()
-    let movieManager = MovieManager()
-    
-    var movies = [Movie]()
-                
+    let viewModel = ViewModel()
+                    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -24,23 +22,47 @@ class MainViewController: UIViewController{
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .automatic
         self.title = "Movie Rank"
+        
+        let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), style: .plain, target: self, action: #selector(filterButtonTapped))
+        navigationItem.rightBarButtonItem = filterButton
                 
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
         
         setUI()
         
-        movieManager.fetchMovies { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let response):
-                    self?.movies = response.results
-                    self?.mainView.collectionView.reloadData()
-                case .failure(let error):
-                    print(error)
-                }
-            }
+        viewModel.fetchMovies {
+            self.mainView.collectionView.reloadData()
         }
+    }
+    
+    @objc func filterButtonTapped(){
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let titleAction = UIAlertAction(title: "영화명", style: .default) { [weak self] _ in
+            self?.viewModel.sortMoviesByTitle()
+            self?.mainView.collectionView.reloadData()
+        }
+        
+        let releaseDateAction = UIAlertAction(title: "발매일", style: .default) { [weak self] _ in
+            self?.viewModel.sortMoviesByReleaseDate()
+            self?.mainView.collectionView.reloadData()
+        }
+        
+        let voteAverageAction = UIAlertAction(title: "별점", style: .default) { [weak self] _ in
+            self?.viewModel.sortMoviesByVoteAverage()
+            self?.mainView.collectionView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(titleAction)
+        alertController.addAction(releaseDateAction)
+        alertController.addAction(voteAverageAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     func setUI(){
@@ -51,21 +73,20 @@ class MainViewController: UIViewController{
     }
 }
 
-
 extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        return viewModel.movie.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainViewCell.identifier, for: indexPath) as! MainViewCell
+        let movie = viewModel.movie[indexPath.item]
         
-        let movie = movies[indexPath.item]
         cell.label.text = movie.title
         
         if let posterPath = movie.posterPath {
             let imageURL = "https://image.tmdb.org/t/p/w500\(posterPath)"
-            cell.setImage(urlString: imageURL, movieManager: movieManager)
+            cell.setImage(urlString: imageURL, viewModel: viewModel)
         }
         
         cell.backgroundColor = .white
@@ -80,7 +101,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detatilVC = DetailViewController()
-        detatilVC.movie = movies[indexPath.item]
+        detatilVC.movie = viewModel.movie[indexPath.item]
         self.navigationController?.pushViewController(detatilVC, animated: true)
     }
 }
