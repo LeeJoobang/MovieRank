@@ -21,8 +21,11 @@ class DetailView: UIView {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "DetailCell")
+        
         collectionView.register(OverviewCell.self, forCellWithReuseIdentifier: OverviewCell.identifier)
         collectionView.register(PosterViewCell.self, forCellWithReuseIdentifier: PosterViewCell.identifier)
+        
+        collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableView.identifier)
 
         return collectionView
     }()
@@ -45,7 +48,5 @@ class DetailView: UIView {
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
         }
-        
-        collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableView.identifier)
     }
 }

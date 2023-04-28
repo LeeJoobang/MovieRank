@@ -88,6 +88,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
     
     //header
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionReusableView.identifier, for: indexPath) as! CollectionReusableView
             if indexPath.section == 1 {
@@ -101,7 +102,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
     }
 
     //header
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, ㅇ section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 1 {
             return CGSize(width: collectionView.bounds.width, height: 44)
         }
