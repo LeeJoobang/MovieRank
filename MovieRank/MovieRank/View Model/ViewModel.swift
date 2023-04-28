@@ -10,11 +10,11 @@ import UIKit
 
 class ViewModel{
     
-    let movieManager = MovieManager()
+    let apiManager = APIManager()
     var movie = [Movie]()
     
     func fetchMovies(completion: @escaping () -> Void){
-        movieManager.fetchMovies { [weak self] result in
+        apiManager.fetchMovies { [weak self] result in
             DispatchQueue.main.async {
                 switch result{
                 case .success(let response):
@@ -28,7 +28,7 @@ class ViewModel{
     }
     
     func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>)-> Void){
-        movieManager.downloadImage(posterPath: posterPath) { result in
+        apiManager.downloadImage(posterPath: posterPath) { result in
             DispatchQueue.main.async {
                 completion(result)
             }

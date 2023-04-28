@@ -7,10 +7,14 @@ target 'MovieRank' do
 
   # Pods for MovieRank
 pod 'SnapKit', '5.6.0'
+pod 'RxSwift', '6.5.0'
+pod 'RxCocoa', '6.5.0'
 
   target 'MovieRankTests' do
     inherit! :search_paths
     # Pods for testing
+pod 'RxBlocking', '6.5.0'
+pod 'RxTest', '6.5.0'
   end
 
   target 'MovieRankUITests' do
