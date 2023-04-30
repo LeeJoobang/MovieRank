@@ -134,10 +134,8 @@
 		EB0FC67C29FB61C1001E4590 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EB0FC67E29FB620D001E4590 /* Detail */,
 				EB0FC67D29FB6204001E4590 /* Main */,
-				EB84C6E629F82CD100361D91 /* MainView.swift */,
-				EB09C86129F8EADC001DF62B /* MainViewCell.swift */,
+				EB0FC67E29FB620D001E4590 /* Detail */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -145,6 +143,8 @@
 		EB0FC67D29FB6204001E4590 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				EB84C6E629F82CD100361D91 /* MainView.swift */,
+				EB09C86129F8EADC001DF62B /* MainViewCell.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -193,10 +193,10 @@
 		EB84C6AF29F818C200361D91 /* MovieRank */ = {
 			isa = PBXGroup;
 			children = (
+				EB09C86B29FA4BDA001DF62B /* View Model */,
 				EB0FC67F29FB6260001E4590 /* Model */,
 				EB84C6E129F819B100361D91 /* Controllers */,
 				EB0FC67C29FB61C1001E4590 /* View */,
-				EB09C86B29FA4BDA001DF62B /* View Model */,
 				EBD98F4729F8B65E00891BC9 /* Networks */,
 				EB84C6B029F818C200361D91 /* AppDelegate.swift */,
 				EB84C6B229F818C200361D91 /* SceneDelegate.swift */,
@@ -228,8 +228,8 @@
 		EB84C6E129F819B100361D91 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				EB09C85B29F8B8E8001DF62B /* DetailViewController.swift */,
 				EB84C6E229F819C300361D91 /* MainViewController.swift */,
+				EB09C85B29F8B8E8001DF62B /* DetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
