@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 
+// Branch Test1
+// Branch Test2
+
 class APIManager{
     private func performRequest(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let config = URLSessionConfiguration.default
