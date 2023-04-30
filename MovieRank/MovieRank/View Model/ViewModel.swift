@@ -8,9 +8,6 @@
 import Foundation
 import UIKit
 
-// Branch Test3
-// Branch Test4
-
 class ViewModel{
     
     let apiManager = APIManager()
