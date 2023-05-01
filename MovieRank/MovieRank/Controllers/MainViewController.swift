@@ -16,7 +16,9 @@ class MainViewController: UIViewController{
     
     let mainView = MainView()
     let viewModel = ViewModel()
-                    
+
+    private var currentPage = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -27,13 +29,13 @@ class MainViewController: UIViewController{
         
         let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), style: .plain, target: self, action: #selector(filterButtonTapped))
         navigationItem.rightBarButtonItem = filterButton
-                
+        
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
         
         setUI()
         
-        viewModel.fetchMovies {
+        viewModel.fetchMovies(page: currentPage) {
             self.mainView.collectionView.reloadData()
         }
     }
@@ -79,7 +81,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.movie.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainViewCell.identifier, for: indexPath) as! MainViewCell
         let movie = viewModel.movie[indexPath.item]
@@ -105,5 +107,21 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         let detatilVC = DetailViewController()
         detatilVC.movie = viewModel.movie[indexPath.item]
         self.navigationController?.pushViewController(detatilVC, animated: true)
+    }
+}
+
+extension MainViewController{
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.movie.count - 1{
+            print("current page: \(currentPage)")
+            loadData()
+        }
+    }
+    
+    func loadData(){
+        currentPage += 1
+        viewModel.appendMovies(page: currentPage) {
+            self.mainView.collectionView.reloadData()
+        }
     }
 }
