@@ -29,15 +29,15 @@ class APIManager{
     }
     
     
-    func fetchMovies(completion: @escaping (Result<MovieResponse, Error>) -> Void){
-        let requestURL = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=\(APIKey.apiKey)&page=2")
-//        let requestURL = URL(string: "https://api.themoviedb.org/3/trending/movie/week?api_key=\(APIKey.apiKey)")
+    func fetchMovies(page: Int, completion: @escaping (Result<MovieResponse, Error>) -> Void){
+        let requestURL = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=\(APIKey.apiKey)&page=\(page)")
         
         guard let url = requestURL else {
             let error = NSError(domain: "", code: 0)
             completion(.failure(error))
             return
         }
+        
         performRequest(url: url) { result in
             switch result {
             case .success(let data):

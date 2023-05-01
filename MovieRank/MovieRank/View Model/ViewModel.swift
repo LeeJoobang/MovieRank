@@ -13,15 +13,29 @@ class ViewModel{
     let apiManager = APIManager()
     var movie = [Movie]()
     
-    func fetchMovies(completion: @escaping () -> Void){
-        apiManager.fetchMovies { [weak self] result in
+    func fetchMovies(page: Int, completion: @escaping () -> Void) {
+        apiManager.fetchMovies(page: page) { [weak self] result in
             DispatchQueue.main.async {
                 switch result{
                 case .success(let response):
                     self?.movie = response.results
                     completion()
                 case .failure(let error):
-                    print("fail error: \(error)")
+                    print("faile error: \(error)")
+                }
+            }
+        }
+    }
+    
+    func appendMovies(page: Int, completion: @escaping () -> Void) {
+        apiManager.fetchMovies(page: page) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    self?.movie.append(contentsOf: response.results)
+                    completion()
+                case .failure(let error):
+                    print("Error: \(error)")
                 }
             }
         }
@@ -40,7 +54,7 @@ class ViewModel{
     }
     
     func sortMoviesByReleaseDate() {
-        movie.sort(by: { $0.releaseDate < $1.releaseDate })
+        movie.sort(by: { ($0.releaseDate ?? "") < ($1.releaseDate ?? "")})
     }
     
     func sortMoviesByVoteAverage() {
