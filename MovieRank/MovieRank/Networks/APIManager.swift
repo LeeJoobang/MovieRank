@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class APIManager{
+class APIManager: MovieService{
     private func performRequest(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -75,5 +75,3 @@ class APIManager{
         }
     }
 }
-
-
