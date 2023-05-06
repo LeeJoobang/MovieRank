@@ -61,11 +61,24 @@ final class MovieRankTests: XCTestCase {
         XCTAssertEqual(viewModel.movie[0].title, "Movie1")
         XCTAssertEqual(viewModel.movie[1].title, "Movie2")
         XCTAssertEqual(viewModel.movie[2].title, "Movie3")
+        
+    }
+    
+    func testSortMoviesByReleaseDate() {
+        viewModel.movie = MockMovieService.mockMovies
+        viewModel.sortMoviesByReleaseDate()
+        XCTAssertEqual(viewModel.movie[0].releaseDate, "2022-01-01")
+        XCTAssertEqual(viewModel.movie[1].releaseDate, "2022-01-02")
+        XCTAssertEqual(viewModel.movie[2].releaseDate, "2022-01-03")
 
     }
     
-    
-    
-    
-    
+    func testSortMoviesByVoteAverage(){
+        viewModel.movie = MockMovieService.mockMovies
+        viewModel.sortMoviesByVoteAverage()
+        XCTAssertEqual(viewModel.movie[0].voteAverage, 3.0 )
+        XCTAssertEqual(viewModel.movie[1].voteAverage, 2.0)
+        XCTAssertEqual(viewModel.movie[2].voteAverage, 1.0)
+
+    }
 }
