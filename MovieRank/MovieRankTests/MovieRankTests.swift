@@ -48,11 +48,20 @@ final class MovieRankTests: XCTestCase {
                 XCTAssertNotNil(image)
                 XCTAssertEqual(image.size, CGSize(width: 1280.0, height: 871.0))
             case .failure(_):
-                XCTFail("Image download should not fail with MockMovieService")
+                XCTFail("fail")
             }
             downloadImageExpectation.fulfill()
         }
         waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testSortMoviesByTitle(){
+        viewModel.movie = MockMovieService.mockMovies
+        viewModel.sortMoviesByTitle()
+        XCTAssertEqual(viewModel.movie[0].title, "Movie1")
+        XCTAssertEqual(viewModel.movie[1].title, "Movie2")
+        XCTAssertEqual(viewModel.movie[2].title, "Movie3")
+
     }
     
     
