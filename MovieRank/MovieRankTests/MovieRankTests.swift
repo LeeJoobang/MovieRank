@@ -38,4 +38,25 @@ final class MovieRankTests: XCTestCase {
         }
         waitForExpectations(timeout: 1, handler: nil)
     }
+    
+    func testDownloadImage() {
+        let downloadImageExpectation = expectation(description: "downloadImage")
+        
+        viewModel.downloadImage(posterPath: "/path1") { result in
+            switch result {
+            case .success(let image):
+                XCTAssertNotNil(image)
+                XCTAssertEqual(image.size, CGSize(width: 1280.0, height: 871.0))
+            case .failure(_):
+                XCTFail("Image download should not fail with MockMovieService")
+            }
+            downloadImageExpectation.fulfill()
+        }
+        waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    
+    
+    
+    
 }

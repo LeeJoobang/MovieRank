@@ -20,8 +20,13 @@ class MockMovieService: MovieService {
     }
     
     func downloadImage(posterPath: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        
-    }
+        if let image = UIImage(named: "testImage") {
+            completion(.success(image))
+        } else {
+            let error = NSError(domain: "", code: 0)
+            completion(.failure(error))
+        }
+    }    
     
     
 }
