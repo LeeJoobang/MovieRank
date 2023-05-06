@@ -9,12 +9,15 @@ import Foundation
 import UIKit
 
 class ViewModel{
-    
-    let apiManager = APIManager()
+    let movieService: MovieService
     var movie = [Movie]()
     
+    init(movieService: MovieService) {
+        self.movieService = movieService
+    }
+    
     func fetchMovies(page: Int, completion: @escaping () -> Void) {
-        apiManager.fetchMovies(page: page) { [weak self] result in
+        movieService.fetchMovies(page: page) { [weak self] result in
             DispatchQueue.main.async {
                 switch result{
                 case .success(let response):
@@ -28,7 +31,7 @@ class ViewModel{
     }
     
     func appendMovies(page: Int, completion: @escaping () -> Void) {
-        apiManager.fetchMovies(page: page) { [weak self] result in
+        movieService.fetchMovies(page: page) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
@@ -42,7 +45,7 @@ class ViewModel{
     }
     
     func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>)-> Void){
-        apiManager.downloadImage(posterPath: posterPath) { result in
+        movieService.downloadImage(posterPath: posterPath) { result in
             DispatchQueue.main.async {
                 completion(result)
             }
@@ -61,5 +64,3 @@ class ViewModel{
         movie.sort(by: { $0.voteAverage > $1.voteAverage })
     }
 }
-
-

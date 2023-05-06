@@ -15,7 +15,7 @@ class DetailViewController: UIViewController {
     let detailView = DetailView()
     
     var movie: Movie?
-    let viewModel = ViewModel()
+    let viewModel = ViewModel(movieService: APIManager())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class DetailViewController: UIViewController {
         detailView.collectionView.dataSource = self
         detailView.collectionView.delegate = self
         
-        setUI()        
+        setUI()
     }
     
     func setUI(){

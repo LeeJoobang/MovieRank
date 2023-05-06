@@ -15,7 +15,7 @@ import RxCocoa
 class MainViewController: UIViewController{
     
     let mainView = MainView()
-    let viewModel = ViewModel()
+    let viewModel = ViewModel(movieService: APIManager())
 
     private var currentPage = 1
     
