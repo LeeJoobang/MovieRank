@@ -2,7 +2,7 @@
 
 ### 구현 GIF
 
-<img src="https://user-images.githubusercontent.com/84652513/236627053-1b93e438-06c1-4613-be64-bba9a09ef748.gif" alt="이미지 설명" width="50%" />
+<img src="https://user-images.githubusercontent.com/84652513/236627053-1b93e438-06c1-4613-be64-bba9a09ef748.gif" alt="이미지 설명" width="30%" />
 
 
 
