@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+protocol MovieService {
+    func fetchMovies(page: Int, completion: @escaping (Result<MovieResponse, Error>) -> Void)
+    func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>) -> Void)
+}
+
 class APIManager: MovieService{
     private func performRequest(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let config = URLSessionConfiguration.default

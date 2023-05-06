@@ -8,13 +8,7 @@
 import Foundation
 import UIKit
 
-protocol MovieService {
-    func fetchMovies(page: Int, completion: @escaping (Result<MovieResponse, Error>) -> Void)
-    func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>) -> Void)
-}
-
 class ViewModel{
-    
     let movieService: MovieService
     var movie = [Movie]()
     
