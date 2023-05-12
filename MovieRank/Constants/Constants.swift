@@ -41,6 +41,17 @@ struct Constants{
     
     enum ViewInfo {
         
+        static let mainCollectionLayout = 10
+        static let mainIndicatorXY = 0
+        static let mainIndicatorWH = 50
+        
+        static let reusableIdentifier = "CollectionReusableView"
+        static let reusableFont = 20
+        
+        static let detailIdentifier = "DetailCell"
+        static let detailCollectionLayout = 10
+        static let detailConstraints = 20
+        
     }
     
     enum ControllerInfo {

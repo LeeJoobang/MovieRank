@@ -8,22 +8,21 @@ import UIKit
 import SnapKit
 
 class DetailView: UIView {
-    static var identifier = "DetailCell"
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.minimumLineSpacing = CGFloat(Constants.ViewInfo.detailCollectionLayout)
+        layout.minimumInteritemSpacing = CGFloat(Constants.ViewInfo.detailCollectionLayout)
+        layout.sectionInset = UIEdgeInsets(top: CGFloat(Constants.ViewInfo.detailCollectionLayout), left: CGFloat(Constants.ViewInfo.detailCollectionLayout), bottom: CGFloat(Constants.ViewInfo.detailCollectionLayout), right: CGFloat(Constants.ViewInfo.detailCollectionLayout))
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: DetailView.identifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: Constants.ViewInfo.detailIdentifier)
         
         collectionView.register(OverviewCell.self, forCellWithReuseIdentifier: Constants.CellInfo.overviewIdentifier)
         collectionView.register(PosterViewCell.self, forCellWithReuseIdentifier: Constants.CellInfo.posterIdentifier)
         
-        collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableView.identifier)
+        collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Constants.ViewInfo.reusableIdentifier)
 
         return collectionView
     }()
@@ -43,8 +42,8 @@ class DetailView: UIView {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().offset(-20)
+            make.leading.equalToSuperview().offset(CGFloat(Constants.ViewInfo.detailConstraints))
+            make.trailing.equalToSuperview().offset(-CGFloat(Constants.ViewInfo.detailConstraints))
         }
     }
 }

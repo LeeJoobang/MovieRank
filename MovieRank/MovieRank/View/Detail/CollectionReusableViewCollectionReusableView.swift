@@ -7,13 +7,11 @@
 import UIKit
 
 final class CollectionReusableView: UICollectionReusableView {
-    
-    static var identifier = "collectionReusableView"
-    
+        
     lazy var label: UILabel = {
         let view = UILabel()
         view.textAlignment = .left
-        view.font = UIFont.systemFont(ofSize: 20)
+        view.font = UIFont.systemFont(ofSize: CGFloat(Constants.ViewInfo.reusableFont))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

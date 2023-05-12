@@ -62,7 +62,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
             cell.label.text = movie?.overview
             return cell
         default:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailView.identifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.ViewInfo.detailIdentifier, for: indexPath)
             return cell
         }
     }
@@ -87,7 +87,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CollectionReusableView.identifier, for: indexPath) as! CollectionReusableView
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.ViewInfo.reusableIdentifier, for: indexPath) as! CollectionReusableView
             if indexPath.section == 1 {
                 header.label.text = "Overview"
             } else {
