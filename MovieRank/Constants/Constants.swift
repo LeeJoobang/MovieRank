@@ -33,7 +33,6 @@ struct Constants{
         static let posterBottom = 0.9
         static let posterOffset = 5
         
-        
         static var overviewIdentifier = "OverviewCell"
         static let overviewLines = 0
         static let overviewFont = 17
@@ -51,11 +50,35 @@ struct Constants{
         static let detailIdentifier = "DetailCell"
         static let detailCollectionLayout = 10
         static let detailConstraints = 20
-        
     }
     
     enum ControllerInfo {
+        static let mainNavigationTitle = "Movie Rank"
+        static let mainFilterButtonImage = "line.horizontal.3.decrease.circle"
+        static let mainCurrentPage = 1
+        static let mainDelayTime = 2
         
+        enum mainFilterText: String {
+            case mainTitleText = "영화명"
+            case mainReleaseText = "개봉일"
+            case mainVoteText = "평점"
+            case mainCancelText = "취소"
+        }
+        
+        static let mainCollectionWidthMinus = 30
+        static let mainCollectionWidthDivide = 2
+        static let mainCollectionHeightDivide = 3
+        static let mainCollectionCurrentPageCount = 1
+        
+        static let detailNavigationTitle = "Movie Info"
+        static let detailCollectionSection = 2
+        static let detailCollectionInSection = 1
+        static let detailSectionZeroHeight = 0.7
+        static let detailSectionOneHeight = 3
+        static let detailSectionDefault = 0.0
+        static let detailHeaderText = "Overview"
+        static let detailHeaderOneHeight = 44
+        static let detailHeaderDefaultHeight = 0
     }
 }
 

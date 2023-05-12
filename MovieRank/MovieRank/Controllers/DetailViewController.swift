@@ -18,7 +18,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        self.title = "Movie Info"
+        self.title = Constants.ControllerInfo.detailNavigationTitle
         
         detailView.collectionView.dataSource = self
         detailView.collectionView.delegate = self
@@ -37,11 +37,11 @@ class DetailViewController: UIViewController {
 extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return Constants.ControllerInfo.detailCollectionSection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return Constants.ControllerInfo.detailCollectionInSection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -72,14 +72,14 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         switch indexPath.section {
         case 0:
             let width = collectionView.bounds.width
-            let height = collectionView.bounds.height * 0.7
+            let height = collectionView.bounds.height * Constants.ControllerInfo.detailSectionZeroHeight
             return CGSize(width: width, height: height)
         case 1:
             let width = collectionView.bounds.width
-            let height = collectionView.bounds.height / 3
+            let height = collectionView.bounds.height / CGFloat(Constants.ControllerInfo.detailSectionOneHeight)
             return CGSize(width: width, height: height)
         default:
-            return CGSize(width: 0.0, height: 0.0)
+            return CGSize(width: Constants.ControllerInfo.detailSectionDefault, height: Constants.ControllerInfo.detailSectionDefault)
         }
     }
     
@@ -89,7 +89,7 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
         if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.ViewInfo.reusableIdentifier, for: indexPath) as! CollectionReusableView
             if indexPath.section == 1 {
-                header.label.text = "Overview"
+                header.label.text = Constants.ControllerInfo.detailHeaderText
             } else {
                 header.label.text = ""
             }
@@ -101,8 +101,8 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
     //header
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 1 {
-            return CGSize(width: collectionView.bounds.width, height: 44)
+            return CGSize(width: collectionView.bounds.width, height: CGFloat(Constants.ControllerInfo.detailHeaderOneHeight))
         }
-        return CGSize(width: collectionView.bounds.width, height: 0)
+        return CGSize(width: collectionView.bounds.width, height: CGFloat(Constants.ControllerInfo.detailHeaderDefaultHeight))
     }
 }
