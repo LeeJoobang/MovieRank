@@ -4,10 +4,7 @@
 //
 //  Created by Joobang on 2023/04/26.
 //
-
-import Foundation
 import UIKit
-
 import SnapKit
 
 class DetailViewController: UIViewController {

@@ -4,11 +4,9 @@
 //
 //  Created by Joobang on 2023/04/26.
 //
-
-import Foundation
 import UIKit
-
 import SnapKit
+import Kingfisher
 
 class MainViewCell: UICollectionViewCell {
     
@@ -61,16 +59,22 @@ class MainViewCell: UICollectionViewCell {
 
 
 extension MainViewCell {
-    func setImage(urlString: String, viewModel: ViewModel) {
-        viewModel.downloadImage(posterPath: urlString) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let image):
-                    self?.imageView.image = image
-                case .failure(let error):
-                    print(error)
-                }
-            }
+//    func setImage(urlString: String, viewModel: ViewModel) {
+//        viewModel.downloadImage(posterPath: urlString) { [weak self] result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let image):
+//                    self?.imageView.image = image
+//                case .failure(let error):
+//                    print(error)
+//                }
+//            }
+//        }
+//    }
+    
+    func setImage(urlString: String){
+        if let url = URL(string: urlString){
+            imageView.kf.setImage(with: url)
         }
     }
 }

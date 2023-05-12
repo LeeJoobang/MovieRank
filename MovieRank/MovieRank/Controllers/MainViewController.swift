@@ -5,9 +5,7 @@
 //  Created by Joobang on 2023/04/25.
 //
 
-import Foundation
 import UIKit
-
 import SnapKit
 import RxSwift
 import RxCocoa
@@ -90,7 +88,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         
         if let posterPath = movie.posterPath {
             let imageURL = "https://image.tmdb.org/t/p/w500\(posterPath)"
-            cell.setImage(urlString: imageURL, viewModel: viewModel)
+            cell.setImage(urlString: imageURL)
         }
         
         cell.backgroundColor = .white
