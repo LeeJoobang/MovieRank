@@ -93,7 +93,7 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         cell.label.text = movie.title
         
         if let posterPath = movie.posterPath {
-            let imageURL = "https://image.tmdb.org/t/p/w500\(posterPath)"
+            let imageURL = Constants.posterPath + posterPath
             cell.setImage(urlString: imageURL)
         }
         

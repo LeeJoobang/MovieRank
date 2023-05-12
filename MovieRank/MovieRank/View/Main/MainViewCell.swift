@@ -59,19 +59,6 @@ class MainViewCell: UICollectionViewCell {
 
 
 extension MainViewCell {
-//    func setImage(urlString: String, viewModel: ViewModel) {
-//        viewModel.downloadImage(posterPath: urlString) { [weak self] result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let image):
-//                    self?.imageView.image = image
-//                case .failure(let error):
-//                    print(error)
-//                }
-//            }
-//        }
-//    }
-    
     func setImage(urlString: String){
         if let url = URL(string: urlString){
             imageView.kf.setImage(with: url)

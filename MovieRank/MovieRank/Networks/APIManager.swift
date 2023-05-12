@@ -33,9 +33,14 @@ class APIManager: MovieService{
     
     
     func fetchMovies(page: Int, completion: @escaping (Result<MovieResponse, Error>) -> Void){
-        let requestURL = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=\(APIKey.apiKey)&page=\(page)")
+        var urlComponents = URLComponents(string: Constants.baseURL)
+        urlComponents?.path = Constants.popularMoviesPath
+        urlComponents?.queryItems = [
+            URLQueryItem(name: Constants.apiKeyName, value: APIKey.apiKey),
+            URLQueryItem(name: "page", value: "\(page)")
+        ]
         
-        guard let url = requestURL else {
+        guard let url = urlComponents?.url else {
             let error = NetworkError.requestFailed
             completion(.failure(error))
             return
