@@ -22,7 +22,7 @@ class APIManager: MovieService{
                 return
             }
             guard let data = data else {
-                let error = NSError(domain: "", code: 0)
+                let error = NetworkError.dataEmpty
                 completion(.failure(error))
                 return
             }
@@ -36,7 +36,7 @@ class APIManager: MovieService{
         let requestURL = URL(string: "https://api.themoviedb.org/3/movie/popular?api_key=\(APIKey.apiKey)&page=\(page)")
         
         guard let url = requestURL else {
-            let error = NSError(domain: "", code: 0)
+            let error = NetworkError.requestFailed
             completion(.failure(error))
             return
         }
@@ -48,10 +48,11 @@ class APIManager: MovieService{
                     let decoder = JSONDecoder()
                     let movieResponse = try decoder.decode(MovieResponse.self, from: data)
                     completion(.success(movieResponse))
-                } catch let error {
-                    completion(.failure(error))
+                } catch {
+                    completion(.failure(NetworkError.decodeFailed))
                 }
-            case .failure(let error):
+            case .failure(var error):
+                error = NetworkError.requestFailed
                 completion(.failure(error))
             }
         }
@@ -59,7 +60,7 @@ class APIManager: MovieService{
     
     func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>) -> Void) {
         guard let url = URL(string: posterPath) else {
-            let error = NSError(domain: "", code: 0)
+            let error = NetworkError.dataEmpty
             completion(.failure(error))
             return
         }
@@ -69,10 +70,11 @@ class APIManager: MovieService{
                 if let image = UIImage(data: data) {
                     completion(.success(image))
                 } else {
-                    let error = NSError(domain: "", code: 0)
+                    let error = NetworkError.dataEmpty
                     completion(.failure(error))
                 }
-            case .failure(let error):
+            case .failure(var error):
+                error = NetworkError.requestFailed
                 completion(.failure(error))
             }
         }
