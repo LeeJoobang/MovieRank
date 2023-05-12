@@ -16,6 +16,8 @@ class MainViewController: UIViewController{
     let viewModel = ViewModel(movieService: APIManager())
 
     private var currentPage = 1
+    private let dalay = 2
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +34,13 @@ class MainViewController: UIViewController{
         mainView.collectionView.dataSource = self
         
         setUI()
-        
+        mainView.activityIndicator.startAnimating()
+
         viewModel.fetchMovies(page: currentPage) {
-            self.mainView.collectionView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(self.dalay)){
+                self.mainView.activityIndicator.stopAnimating()
+                self.mainView.collectionView.reloadData()
+            }
         }
     }
     
@@ -118,8 +124,13 @@ extension MainViewController{
     
     func loadData(){
         currentPage += 1
+        
+        mainView.activityIndicator.startAnimating()
         viewModel.appendMovies(page: currentPage) {
-            self.mainView.collectionView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(self.dalay)) {
+                self.mainView.activityIndicator.stopAnimating()
+                self.mainView.collectionView.reloadData()
+            }
         }
     }
 }

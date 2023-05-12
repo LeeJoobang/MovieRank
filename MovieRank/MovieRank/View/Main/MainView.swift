@@ -24,6 +24,16 @@ class MainView: UIView {
         return collectionView
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.stopAnimating()
+        return activityIndicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUI()
@@ -35,11 +45,16 @@ class MainView: UIView {
     
     func setUI(){
         addSubview(collectionView)
-    
+        addSubview(self.activityIndicator)
+
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom)
             make.leading.trailing.equalToSuperview()
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
 }
