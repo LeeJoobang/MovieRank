@@ -19,7 +19,7 @@ class MainView: UIView {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
-        collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: MainViewCell.identifier)
+        collectionView.register(MainViewCell.self, forCellWithReuseIdentifier: Constants.CellInfo.mainCellIdentifier)
             
         return collectionView
     }()

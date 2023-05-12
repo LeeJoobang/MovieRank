@@ -87,17 +87,13 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainViewCell.identifier, for: indexPath) as! MainViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellInfo.mainCellIdentifier, for: indexPath) as! MainViewCell
         let movie = viewModel.movie[indexPath.item]
-        
         cell.label.text = movie.title
-        
         if let posterPath = movie.posterPath {
-            let imageURL = Constants.posterPath + posterPath
+            let imageURL = Constants.URL.posterPath + posterPath
             cell.setImage(urlString: imageURL)
         }
-        
-        cell.backgroundColor = .white
         return cell
     }
     

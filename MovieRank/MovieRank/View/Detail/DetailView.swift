@@ -8,6 +8,7 @@ import UIKit
 import SnapKit
 
 class DetailView: UIView {
+    static var identifier = "DetailCell"
     
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -17,10 +18,10 @@ class DetailView: UIView {
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "DetailCell")
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: DetailView.identifier)
         
-        collectionView.register(OverviewCell.self, forCellWithReuseIdentifier: OverviewCell.identifier)
-        collectionView.register(PosterViewCell.self, forCellWithReuseIdentifier: PosterViewCell.identifier)
+        collectionView.register(OverviewCell.self, forCellWithReuseIdentifier: Constants.CellInfo.overviewIdentifier)
+        collectionView.register(PosterViewCell.self, forCellWithReuseIdentifier: Constants.CellInfo.posterIdentifier)
         
         collectionView.register(CollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableView.identifier)
 

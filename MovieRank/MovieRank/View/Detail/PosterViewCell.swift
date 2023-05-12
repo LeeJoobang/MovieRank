@@ -8,9 +8,7 @@ import UIKit
 import SnapKit
 
 class PosterViewCell: UICollectionViewCell {
-    
-    static var identifier = "PosterViewCell"
-    
+        
     let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
@@ -21,8 +19,8 @@ class PosterViewCell: UICollectionViewCell {
     lazy var titlelabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.numberOfLines = Constants.CellInfo.posterLines
+        label.font = UIFont.systemFont(ofSize: CGFloat(Constants.CellInfo.posterTitleFont))
         label.textColor = .white
         return label
     }()
@@ -30,8 +28,8 @@ class PosterViewCell: UICollectionViewCell {
     lazy var releaselabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.numberOfLines = Constants.CellInfo.posterLines
+        label.font = UIFont.systemFont(ofSize: CGFloat(Constants.CellInfo.posterLabelFont))
         label.textColor = .white
         return label
     }()
@@ -39,8 +37,8 @@ class PosterViewCell: UICollectionViewCell {
     lazy var ratelabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.numberOfLines = Constants.CellInfo.posterLines
+        label.font = UIFont.systemFont(ofSize: CGFloat(Constants.CellInfo.posterLabelFont))
         label.textColor = .white
         return label
     }()
@@ -65,9 +63,9 @@ class PosterViewCell: UICollectionViewCell {
         }
         
         titlelabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-            make.bottom.equalToSuperview().multipliedBy(0.9)
+            make.leading.equalToSuperview().offset(Constants.CellInfo.posterTitleLeading)
+            make.trailing.equalToSuperview().offset(-Constants.CellInfo.posterTitleLeading)
+            make.bottom.equalToSuperview().multipliedBy(Constants.CellInfo.posterBottom)
         }
         
         releaselabel.snp.makeConstraints { make in
@@ -77,7 +75,7 @@ class PosterViewCell: UICollectionViewCell {
         
         ratelabel.snp.makeConstraints { make in
             make.top.equalTo(titlelabel.snp.bottom)
-            make.leading.equalTo(releaselabel.snp.trailing).offset(5)
+            make.leading.equalTo(releaselabel.snp.trailing).offset(Constants.CellInfo.posterTitleLeading)
         }
     }
 }

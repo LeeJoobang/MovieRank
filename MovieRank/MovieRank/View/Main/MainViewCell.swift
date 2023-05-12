@@ -9,9 +9,7 @@ import SnapKit
 import Kingfisher
 
 class MainViewCell: UICollectionViewCell {
-    
-    static var identifier = "MainCollectionViewCell"
-    
+        
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -23,8 +21,8 @@ class MainViewCell: UICollectionViewCell {
     let label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.numberOfLines = Constants.CellInfo.mainLines
+        label.font = UIFont.systemFont(ofSize: CGFloat(Constants.CellInfo.mainFontSize))
         label.backgroundColor = .white
         return label
     }()
@@ -45,13 +43,13 @@ class MainViewCell: UICollectionViewCell {
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(4)
-            make.height.equalToSuperview().multipliedBy(0.8)
+            make.leading.trailing.equalToSuperview().inset(Constants.CellInfo.mainImageViewInset)
+            make.height.equalToSuperview().multipliedBy(Constants.CellInfo.mainHeight)
         }
         
         label.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(4)
+            make.top.equalTo(imageView.snp.bottom).offset(Constants.CellInfo.mainTop)
+            make.leading.trailing.equalToSuperview().inset(Constants.CellInfo.mainImageViewInset)
             make.bottom.equalToSuperview()
         }
     }

@@ -33,10 +33,10 @@ class APIManager: MovieService{
     
     
     func fetchMovies(page: Int, completion: @escaping (Result<MovieResponse, Error>) -> Void){
-        var urlComponents = URLComponents(string: Constants.baseURL)
-        urlComponents?.path = Constants.popularMoviesPath
+        var urlComponents = URLComponents(string: Constants.URL.baseURL)
+        urlComponents?.path = Constants.URL.popularMoviesPath
         urlComponents?.queryItems = [
-            URLQueryItem(name: Constants.apiKeyName, value: APIKey.apiKey),
+            URLQueryItem(name: Constants.URL.apiKeyName, value: APIKey.apiKey),
             URLQueryItem(name: "page", value: "\(page)")
         ]
         

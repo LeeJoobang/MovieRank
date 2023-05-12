@@ -47,22 +47,22 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterViewCell.identifier, for: indexPath) as! PosterViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellInfo.posterIdentifier, for: indexPath) as! PosterViewCell
             cell.titlelabel.text = movie?.title
             cell.releaselabel.text = movie?.releaseDate
             cell.ratelabel.text = String(movie?.voteAverage ?? 0)
             
             if let posterPath = movie?.posterPath {
-                let imageURL = "https://image.tmdb.org/t/p/w500\(posterPath)"
+                let imageURL = Constants.URL.posterPath + posterPath
                 cell.setImage(urlString: imageURL, viewModel: viewModel)
             }
             return cell
         case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OverviewCell.identifier, for: indexPath) as! OverviewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellInfo.overviewIdentifier, for: indexPath) as! OverviewCell
             cell.label.text = movie?.overview
             return cell
         default:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailCell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailView.identifier, for: indexPath)
             return cell
         }
     }
