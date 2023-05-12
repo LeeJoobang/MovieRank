@@ -4,8 +4,6 @@
 //
 //  Created by Joobang on 2023/04/28.
 //
-
-import Foundation
 import UIKit
 
 protocol MovieService {
