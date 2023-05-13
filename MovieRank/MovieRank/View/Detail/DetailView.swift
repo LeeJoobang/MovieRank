@@ -36,7 +36,7 @@ class DetailView: UIView {
         fatalError()
     }
     
-    func setUI(){
+    private func setUI(){
         addSubview(collectionView)
     
         collectionView.snp.makeConstraints { make in

@@ -9,7 +9,7 @@ import SnapKit
 
 class PosterViewCell: UICollectionViewCell {
         
-    let posterImageView: UIImageView = {
+    private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true
@@ -52,7 +52,7 @@ class PosterViewCell: UICollectionViewCell {
         fatalError()
     }
     
-    func setUI(){
+    private func setUI(){
         addSubview(posterImageView)
         posterImageView.addSubview(titlelabel)
         posterImageView.addSubview(releaselabel)

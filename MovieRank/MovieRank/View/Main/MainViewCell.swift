@@ -10,7 +10,7 @@ import Kingfisher
 
 class MainViewCell: UICollectionViewCell {
         
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
@@ -36,7 +36,7 @@ class MainViewCell: UICollectionViewCell {
         fatalError()
     }
     
-    func setUI(){
+    private func setUI(){
         addSubview(imageView)
         addSubview(label)
         

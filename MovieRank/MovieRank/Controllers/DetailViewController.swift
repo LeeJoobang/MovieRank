@@ -9,10 +9,10 @@ import SnapKit
 
 class DetailViewController: UIViewController {
     
-    let detailView = DetailView()
+    private let detailView = DetailView()
     
     var movie: Movie?
-    let viewModel = ViewModel(movieService: APIManager())
+    private let viewModel = ViewModel(movieService: APIManager())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class DetailViewController: UIViewController {
         setUI()
     }
     
-    func setUI(){
+    private func setUI(){
         view.addSubview(detailView)
         detailView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

@@ -26,7 +26,7 @@ class OverviewCell: UICollectionViewCell {
         fatalError()
     }
     
-    func setUI(){
+    private func setUI(){
         addSubview(label)
         
         label.snp.makeConstraints { make in

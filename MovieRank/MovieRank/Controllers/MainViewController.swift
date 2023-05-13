@@ -12,8 +12,8 @@ import RxCocoa
 
 class MainViewController: UIViewController{
     
-    let mainView = MainView()
-    let viewModel = ViewModel(movieService: APIManager())
+    private let mainView = MainView()
+    private let viewModel = ViewModel(movieService: APIManager())
 
     private var currentPage = Constants.ControllerInfo.mainCurrentPage
     private let dalay = Constants.ControllerInfo.mainDelayTime
@@ -73,7 +73,7 @@ class MainViewController: UIViewController{
         present(alertController, animated: true, completion: nil)
     }
     
-    func setUI(){
+    private func setUI(){
         view.addSubview(mainView)
         mainView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
