@@ -12,10 +12,12 @@ import RxCocoa
 
 class MainViewController: UIViewController{
     
-    let mainView = MainView()
-    let viewModel = ViewModel(movieService: APIManager())
+    private let mainView = MainView()
+    private let viewModel = ViewModel(movieService: APIManager())
 
-    private var currentPage = 1
+    private var currentPage = Constants.ControllerInfo.mainCurrentPage
+    private let dalay = Constants.ControllerInfo.mainDelayTime
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,18 +25,22 @@ class MainViewController: UIViewController{
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .automatic
-        self.title = "Movie Rank"
+        self.title = Constants.ControllerInfo.mainNavigationTitle
         
-        let filterButton = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3.decrease.circle"), style: .plain, target: self, action: #selector(filterButtonTapped))
+        let filterButton = UIBarButtonItem(image: UIImage(systemName: Constants.ControllerInfo.mainFilterButtonImage), style: .plain, target: self, action: #selector(filterButtonTapped))
         navigationItem.rightBarButtonItem = filterButton
         
         mainView.collectionView.delegate = self
         mainView.collectionView.dataSource = self
         
         setUI()
-        
+        mainView.activityIndicator.startAnimating()
+
         viewModel.fetchMovies(page: currentPage) {
-            self.mainView.collectionView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(self.dalay)){
+                self.mainView.activityIndicator.stopAnimating()
+                self.mainView.collectionView.reloadData()
+            }
         }
     }
     
@@ -42,22 +48,22 @@ class MainViewController: UIViewController{
         
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let titleAction = UIAlertAction(title: "영화명", style: .default) { [weak self] _ in
+        let titleAction = UIAlertAction(title: Constants.ControllerInfo.mainFilterText.mainTitleText.rawValue, style: .default) { [weak self] _ in
             self?.viewModel.sortMoviesByTitle()
             self?.mainView.collectionView.reloadData()
         }
         
-        let releaseDateAction = UIAlertAction(title: "개봉일", style: .default) { [weak self] _ in
+        let releaseDateAction = UIAlertAction(title: Constants.ControllerInfo.mainFilterText.mainReleaseText.rawValue, style: .default) { [weak self] _ in
             self?.viewModel.sortMoviesByReleaseDate()
             self?.mainView.collectionView.reloadData()
         }
         
-        let voteAverageAction = UIAlertAction(title: "평점", style: .default) { [weak self] _ in
+        let voteAverageAction = UIAlertAction(title: Constants.ControllerInfo.mainFilterText.mainVoteText.rawValue, style: .default) { [weak self] _ in
             self?.viewModel.sortMoviesByVoteAverage()
             self?.mainView.collectionView.reloadData()
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: Constants.ControllerInfo.mainFilterText.mainCancelText.rawValue, style: .cancel, handler: nil)
         
         alertController.addAction(titleAction)
         alertController.addAction(releaseDateAction)
@@ -67,7 +73,7 @@ class MainViewController: UIViewController{
         present(alertController, animated: true, completion: nil)
     }
     
-    func setUI(){
+    private func setUI(){
         view.addSubview(mainView)
         mainView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -81,23 +87,19 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainViewCell.identifier, for: indexPath) as! MainViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellInfo.mainCellIdentifier, for: indexPath) as! MainViewCell
         let movie = viewModel.movie[indexPath.item]
-        
         cell.label.text = movie.title
-        
         if let posterPath = movie.posterPath {
-            let imageURL = "https://image.tmdb.org/t/p/w500\(posterPath)"
+            let imageURL = Constants.URL.posterPath + posterPath
             cell.setImage(urlString: imageURL)
         }
-        
-        cell.backgroundColor = .white
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width - 30) / 2
-        let height = collectionView.bounds.height / 3
+        let width = (Int(collectionView.bounds.width) - Constants.ControllerInfo.mainCollectionWidthMinus) / Constants.ControllerInfo.mainCollectionWidthDivide
+        let height = Int(collectionView.bounds.height) / Constants.ControllerInfo.mainCollectionHeightDivide
         return CGSize(width: width, height: height)
     }
     
@@ -110,16 +112,21 @@ extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 
 extension MainViewController{
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == viewModel.movie.count - 1{
+        if indexPath.row == viewModel.movie.count - Constants.ControllerInfo.mainCurrentPage{
             print("current page: \(currentPage)")
             loadData()
         }
     }
     
     func loadData(){
-        currentPage += 1
+        currentPage += Constants.ControllerInfo.mainCurrentPage
+        
+        mainView.activityIndicator.startAnimating()
         viewModel.appendMovies(page: currentPage) {
-            self.mainView.collectionView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(self.dalay)) {
+                self.mainView.activityIndicator.stopAnimating()
+                self.mainView.collectionView.reloadData()
+            }
         }
     }
 }

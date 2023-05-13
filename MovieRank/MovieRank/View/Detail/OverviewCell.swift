@@ -9,13 +9,11 @@ import SnapKit
 
 class OverviewCell: UICollectionViewCell {
     
-    static var identifier = "OverviewCell"
-    
     lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.numberOfLines = Constants.CellInfo.overviewLines
+        label.font = UIFont.systemFont(ofSize: CGFloat(Constants.CellInfo.overviewFont))
         return label
     }()
     
@@ -28,7 +26,7 @@ class OverviewCell: UICollectionViewCell {
         fatalError()
     }
     
-    func setUI(){
+    private func setUI(){
         addSubview(label)
         
         label.snp.makeConstraints { make in
