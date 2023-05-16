@@ -9,7 +9,6 @@ import RxSwift
 
 protocol MovieService {
     func fetchMovies(page: Int) -> Observable<MovieResponse>
-    func downloadImage(posterPath: String) -> Observable<UIImage>
 }
 
 class APIManager: MovieService {
@@ -56,29 +55,6 @@ class APIManager: MovieService {
                         observer.onCompleted()
                     } catch {
                         observer.onError(NetworkError.decodeFailed)
-                    }
-                case .failure(let error):
-                    observer.onError(error)
-                }
-            }
-            return Disposables.create()
-        }
-    }
-    
-    func downloadImage(posterPath: String) -> Observable<UIImage> {
-        guard let url = URL(string: posterPath) else {
-            return Observable.error(NetworkError.dataEmpty)
-        }
-        
-        return Observable.create { [weak self] observer in
-            self?.performRequest(url: url) { result in
-                switch result {
-                case .success(let data):
-                    if let image = UIImage(data: data) {
-                        observer.onNext(image)
-                        observer.onCompleted()
-                    } else {
-                        observer.onError(NetworkError.dataEmpty)
                     }
                 case .failure(let error):
                     observer.onError(error)

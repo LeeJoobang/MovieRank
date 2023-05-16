@@ -26,20 +26,16 @@ class ViewModel {
         movieService.fetchMovies(page: page)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] response in
-                self?.updateMovies(response.results)
+                self?.appendMovies(response.results)
             }, onError: { error in
                 print("Failed to fetch movies: \(error)")
             }).disposed(by: disposeBag)
     }
     
-    private func updateMovies(_ newMovies: [Movie]) {
+    private func appendMovies(_ newMovies: [Movie]) {
         var currentMovies = movieRelay.value
         currentMovies.append(contentsOf: newMovies)
         movieRelay.accept(currentMovies)
-    }
-    
-    func downloadImage(posterPath: String) -> Observable<UIImage> {
-        return movieService.downloadImage(posterPath: posterPath)
     }
     
     func sortMoviesByTitle() {
