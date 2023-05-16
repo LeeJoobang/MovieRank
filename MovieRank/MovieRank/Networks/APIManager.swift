@@ -5,13 +5,15 @@
 //  Created by Joobang on 2023/04/28.
 //
 import UIKit
+import RxSwift
 
 protocol MovieService {
-    func fetchMovies(page: Int, completion: @escaping (Result<MovieResponse, Error>) -> Void)
-    func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>) -> Void)
+    func fetchMovies(page: Int) -> Observable<MovieResponse>
+    func downloadImage(posterPath: String) -> Observable<UIImage>
 }
 
-class APIManager: MovieService{
+class APIManager: MovieService {
+    
     private func performRequest(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -31,8 +33,7 @@ class APIManager: MovieService{
         dataTask.resume()
     }
     
-    
-    func fetchMovies(page: Int, completion: @escaping (Result<MovieResponse, Error>) -> Void){
+    func fetchMovies(page: Int) -> Observable<MovieResponse> {
         var urlComponents = URLComponents(string: Constants.URL.baseURL)
         urlComponents?.path = Constants.URL.popularMoviesPath
         urlComponents?.queryItems = [
@@ -41,47 +42,49 @@ class APIManager: MovieService{
         ]
         
         guard let url = urlComponents?.url else {
-            let error = NetworkError.requestFailed
-            completion(.failure(error))
-            return
+            return Observable.error(NetworkError.requestFailed)
         }
         
-        performRequest(url: url) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    let movieResponse = try decoder.decode(MovieResponse.self, from: data)
-                    completion(.success(movieResponse))
-                } catch {
-                    completion(.failure(NetworkError.decodeFailed))
+        return Observable.create { [weak self] observer in
+            self?.performRequest(url: url) { result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let decoder = JSONDecoder()
+                        let movieResponse = try decoder.decode(MovieResponse.self, from: data)
+                        observer.onNext(movieResponse)
+                        observer.onCompleted()
+                    } catch {
+                        observer.onError(NetworkError.decodeFailed)
+                    }
+                case .failure(let error):
+                    observer.onError(error)
                 }
-            case .failure(var error):
-                error = NetworkError.requestFailed
-                completion(.failure(error))
             }
+            return Disposables.create()
         }
     }
     
-    func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>) -> Void) {
+    func downloadImage(posterPath: String) -> Observable<UIImage> {
         guard let url = URL(string: posterPath) else {
-            let error = NetworkError.dataEmpty
-            completion(.failure(error))
-            return
+            return Observable.error(NetworkError.dataEmpty)
         }
-        performRequest(url: url) { result in
-            switch result {
-            case .success(let data):
-                if let image = UIImage(data: data) {
-                    completion(.success(image))
-                } else {
-                    let error = NetworkError.dataEmpty
-                    completion(.failure(error))
+        
+        return Observable.create { [weak self] observer in
+            self?.performRequest(url: url) { result in
+                switch result {
+                case .success(let data):
+                    if let image = UIImage(data: data) {
+                        observer.onNext(image)
+                        observer.onCompleted()
+                    } else {
+                        observer.onError(NetworkError.dataEmpty)
+                    }
+                case .failure(let error):
+                    observer.onError(error)
                 }
-            case .failure(var error):
-                error = NetworkError.requestFailed
-                completion(.failure(error))
             }
+            return Disposables.create()
         }
     }
 }

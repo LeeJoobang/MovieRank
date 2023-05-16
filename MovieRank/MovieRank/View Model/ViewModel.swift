@@ -5,60 +5,60 @@
 //  Created by Joobang on 2023/04/27.
 //
 import UIKit
+import RxSwift
+import RxCocoa
 
-class ViewModel{
+class ViewModel {
+    
     let movieService: MovieService
-    var movie = [Movie]()
+    private let disposeBag = DisposeBag()
+    
+    let movieRelay = BehaviorRelay<[Movie]>(value: [])
+    var movies: Observable<[Movie]> {
+        return movieRelay.asObservable()
+    }
     
     init(movieService: MovieService) {
         self.movieService = movieService
     }
     
-    func fetchMovies(page: Int, completion: @escaping () -> Void) {
-        movieService.fetchMovies(page: page) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result{
-                case .success(let response):
-                    self?.movie = response.results
-                    completion()
-                case .failure(let error):
-                    print("faile error: \(error)")
-                }
-            }
-        }
+    func fetchMovies(page: Int) {
+        movieService.fetchMovies(page: page)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] response in
+                self?.updateMovies(response.results)
+            }, onError: { error in
+                print("Failed to fetch movies: \(error)")
+            }).disposed(by: disposeBag)
     }
     
-    func appendMovies(page: Int, completion: @escaping () -> Void) {
-        movieService.fetchMovies(page: page) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let response):
-                    self?.movie.append(contentsOf: response.results)
-                    completion()
-                case .failure(let error):
-                    print("Error: \(error)")
-                }
-            }
-        }
+    private func updateMovies(_ newMovies: [Movie]) {
+        var currentMovies = movieRelay.value
+        currentMovies.append(contentsOf: newMovies)
+        movieRelay.accept(currentMovies)
     }
     
-    func downloadImage(posterPath: String, completion: @escaping(Result<UIImage, Error>)-> Void){
-        movieService.downloadImage(posterPath: posterPath) { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        }
+    func downloadImage(posterPath: String) -> Observable<UIImage> {
+        return movieService.downloadImage(posterPath: posterPath)
     }
     
     func sortMoviesByTitle() {
-        movie.sort(by: { $0.title < $1.title })
+        var currentMovies = movieRelay.value
+        currentMovies.sort(by: { $0.title < $1.title })
+        movieRelay.accept(currentMovies)
     }
     
     func sortMoviesByReleaseDate() {
-        movie.sort(by: { ($0.releaseDate ?? "") < ($1.releaseDate ?? "")})
+        var currentMovies = movieRelay.value
+        currentMovies.sort(by: { ($0.releaseDate ?? "") < ($1.releaseDate ?? "") })
+        movieRelay.accept(currentMovies)
     }
     
     func sortMoviesByVoteAverage() {
-        movie.sort(by: { $0.voteAverage > $1.voteAverage })
+        var currentMovies = movieRelay.value
+        currentMovies.sort(by: { $0.voteAverage > $1.voteAverage })
+        movieRelay.accept(currentMovies)
     }
+    
+    
 }

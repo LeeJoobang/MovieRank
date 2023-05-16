@@ -52,9 +52,11 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout, UICollection
             cell.releaselabel.text = movie?.releaseDate
             cell.ratelabel.text = String(movie?.voteAverage ?? 0)
             
+            
             if let posterPath = movie?.posterPath {
                 let imageURL = Constants.URL.posterPath + posterPath
-                cell.setImage(urlString: imageURL, viewModel: viewModel)
+                
+                cell.setImage(urlString: imageURL)
             }
             return cell
         case 1:
