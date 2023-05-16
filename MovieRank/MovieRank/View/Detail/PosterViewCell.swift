@@ -6,6 +6,7 @@
 //
 import UIKit
 import SnapKit
+import Kingfisher
 
 class PosterViewCell: UICollectionViewCell {
         
@@ -57,7 +58,7 @@ class PosterViewCell: UICollectionViewCell {
         posterImageView.addSubview(titlelabel)
         posterImageView.addSubview(releaselabel)
         posterImageView.addSubview(ratelabel)
-
+        
         posterImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -81,16 +82,10 @@ class PosterViewCell: UICollectionViewCell {
 }
 
 extension PosterViewCell {
-    func setImage(urlString: String, viewModel: ViewModel) {
-        viewModel.downloadImage(posterPath: urlString) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let image):
-                    self?.posterImageView.image = image
-                case .failure(let error):
-                    print(error)
-                }
-            }
+    
+    func setImage(urlString: String){
+        if let url = URL(string: urlString){
+            posterImageView.kf.setImage(with: url)
         }
     }
 }
