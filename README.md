@@ -1,16 +1,27 @@
 # MovieRank
 
-### 구현 GIF
+## 구현 GIF
 
+| <img src="https://github.com/LeeJoobang/MovieRank/assets/84652513/d44f14d5-0004-4ea6-8144-ff4a227f6b0b" alt="이미지 설명" width="50%" /> |
+| :----------------------------------------------------------: |
 
+### 작업 개요
 
-|                             기존                             |                      Image Caching 적용                      |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/84652513/236627053-1b93e438-06c1-4613-be64-bba9a09ef748.gif" alt="이미지 설명" width="50%" /> | <img src="https://github.com/LeeJoobang/MovieRank/assets/84652513/d44f14d5-0004-4ea6-8144-ff4a227f6b0b" alt="이미지 설명" width="50%" /> |
+- 기간: 2023. 4. 25. - 5. 17.
 
+- 아키텍쳐: MVVM + RxSwift
 
+- 특징
 
-#### 작업 기록
+  - TMDB API를 활용하여 인기영화목록을 보여줌.
+  - 세부영화 정보 및 필터기능(영화명, 개봉일, 평점) 제공
+  - MVVM 패턴을 적용함으로써 수정사항의 영역을 분명하게 함.
+  - Pagenation 및 이미지 캐싱을 적용하였음.
+  - RxSwift를 사용하여 데이터 비동기처리 적용.
+
+  
+
+### 작업 기록
 
 1. [2023.04.26 + MVC + URLSession](https://velog.io/@hii5074/MovieRank-App1-URLSession)
 2. [2023.04.27 + HeaderView + MVVM + ViewModel](https://velog.io/@hii5074/MovieRank-App2-HeaderView-MVVM-ViewModel)
@@ -24,3 +35,4 @@
 
 7. [2023.05.10 + ImageCaching](https://velog.io/@hii5074/Image-Caching)
 
+8. [2023.05.17 + RxSwift](https://velog.io/@hii5074/RxSwift)
