@@ -32,18 +32,9 @@ class MainViewController: UIViewController{
         mainView.collectionView.delegate = self
         
         setUI()
+        movieSubscribe(page: currentPage)
         bindUI()
-        
-        mainView.activityIndicator.startAnimating()
-        
-        viewModel.movies
-            .subscribe(onNext: { [weak self] movies in
-                self?.mainView.collectionView.reloadData()
-                self?.mainView.activityIndicator.stopAnimating()
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.fetchMovies(page: currentPage)
+        itemSelect()
     }
     
     @objc func filterButtonTapped() {
@@ -79,6 +70,20 @@ class MainViewController: UIViewController{
 }
 
 extension MainViewController {
+    
+    func movieSubscribe(page: Int){
+        mainView.activityIndicator.startAnimating()
+        
+        viewModel.movies
+            .subscribe(onNext: { [weak self] movies in
+                self?.mainView.collectionView.reloadData()
+                self?.mainView.activityIndicator.stopAnimating()
+            })
+            .disposed(by: disposeBag)
+        viewModel.fetchMovies(page: page)
+        
+    }
+    
     func bindUI(){
         viewModel.movies
             .bind(to: mainView.collectionView.rx.items(cellIdentifier: Constants.CellInfo.mainCellIdentifier, cellType: MainViewCell.self)) {
@@ -89,6 +94,15 @@ extension MainViewController {
                     cell.setImage(urlString: imageURL)
                 }
             }
+    }
+    
+    func itemSelect(){
+        mainView.collectionView.rx.modelSelected(Movie.self)
+            .subscribe(onNext: { [weak self] movie in
+                let detailVC = DetailViewController()
+                detailVC.movie = movie
+                self?.navigationController?.pushViewController(detailVC, animated: true)
+            }).disposed(by: disposeBag)
     }
 }
 
@@ -102,12 +116,6 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
         let width = (Int(collectionView.bounds.width) - Constants.ControllerInfo.mainCollectionWidthMinus) / Constants.ControllerInfo.mainCollectionWidthDivide
         let height = Int(collectionView.bounds.height) / Constants.ControllerInfo.mainCollectionHeightDivide
         return CGSize(width: width, height: height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailVC = DetailViewController()
-        detailVC.movie = viewModel.movieRelay.value[indexPath.item]
-        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
