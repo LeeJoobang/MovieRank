@@ -93,7 +93,7 @@ extension MainViewController {
                     let imageURL = Constants.URL.posterPath + posterPath
                     cell.setImage(urlString: imageURL)
                 }
-            }
+            }.disposed(by: disposeBag)
     }
     
     func itemSelect(){
