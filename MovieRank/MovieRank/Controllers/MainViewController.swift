@@ -30,9 +30,9 @@ class MainViewController: UIViewController{
         navigationItem.rightBarButtonItem = filterButton
         
         mainView.collectionView.delegate = self
-        mainView.collectionView.dataSource = self
         
         setUI()
+        bindUI()
         
         mainView.activityIndicator.startAnimating()
         
@@ -78,23 +78,26 @@ class MainViewController: UIViewController{
     }
 }
 
+extension MainViewController {
+    func bindUI(){
+        viewModel.movies
+            .bind(to: mainView.collectionView.rx.items(cellIdentifier: Constants.CellInfo.mainCellIdentifier, cellType: MainViewCell.self)) {
+                row, movie, cell in
+                cell.label.text = movie.title
+                if let posterPath = movie.posterPath {
+                    let imageURL = Constants.URL.posterPath + posterPath
+                    cell.setImage(urlString: imageURL)
+                }
+            }
+    }
+}
 
-extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.movieRelay.value.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellInfo.mainCellIdentifier, for: indexPath) as! MainViewCell
-        let movie = viewModel.movieRelay.value[indexPath.item]
-        cell.label.text = movie.title
-        if let posterPath = movie.posterPath {
-            let imageURL = Constants.URL.posterPath + posterPath
-            cell.setImage(urlString: imageURL)
-        }
-        return cell
-    }
-    
+        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (Int(collectionView.bounds.width) - Constants.ControllerInfo.mainCollectionWidthMinus) / Constants.ControllerInfo.mainCollectionWidthDivide
         let height = Int(collectionView.bounds.height) / Constants.ControllerInfo.mainCollectionHeightDivide
