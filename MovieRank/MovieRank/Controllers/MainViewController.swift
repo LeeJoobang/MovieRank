@@ -30,20 +30,11 @@ class MainViewController: UIViewController{
         navigationItem.rightBarButtonItem = filterButton
         
         mainView.collectionView.delegate = self
-        mainView.collectionView.dataSource = self
         
         setUI()
-        
-        mainView.activityIndicator.startAnimating()
-        
-        viewModel.movies
-            .subscribe(onNext: { [weak self] movies in
-                self?.mainView.collectionView.reloadData()
-                self?.mainView.activityIndicator.stopAnimating()
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.fetchMovies(page: currentPage)
+        movieSubscribe(page: currentPage)
+        bindUI()
+        itemSelect()
     }
     
     @objc func filterButtonTapped() {
@@ -78,33 +69,53 @@ class MainViewController: UIViewController{
     }
 }
 
+extension MainViewController {
+    
+    func movieSubscribe(page: Int){
+        mainView.activityIndicator.startAnimating()
+        
+        viewModel.movies
+            .subscribe(onNext: { [weak self] movies in
+                self?.mainView.collectionView.reloadData()
+                self?.mainView.activityIndicator.stopAnimating()
+            })
+            .disposed(by: disposeBag)
+        viewModel.fetchMovies(page: page)
+        
+    }
+    
+    func bindUI(){
+        viewModel.movies
+            .bind(to: mainView.collectionView.rx.items(cellIdentifier: Constants.CellInfo.mainCellIdentifier, cellType: MainViewCell.self)) {
+                row, movie, cell in
+                cell.label.text = movie.title
+                if let posterPath = movie.posterPath {
+                    let imageURL = Constants.URL.posterPath + posterPath
+                    cell.setImage(urlString: imageURL)
+                }
+            }
+    }
+    
+    func itemSelect(){
+        mainView.collectionView.rx.modelSelected(Movie.self)
+            .subscribe(onNext: { [weak self] movie in
+                let detailVC = DetailViewController()
+                detailVC.movie = movie
+                self?.navigationController?.pushViewController(detailVC, animated: true)
+            }).disposed(by: disposeBag)
+    }
+}
 
-extension MainViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.movieRelay.value.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellInfo.mainCellIdentifier, for: indexPath) as! MainViewCell
-        let movie = viewModel.movieRelay.value[indexPath.item]
-        cell.label.text = movie.title
-        if let posterPath = movie.posterPath {
-            let imageURL = Constants.URL.posterPath + posterPath
-            cell.setImage(urlString: imageURL)
-        }
-        return cell
-    }
-    
+        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (Int(collectionView.bounds.width) - Constants.ControllerInfo.mainCollectionWidthMinus) / Constants.ControllerInfo.mainCollectionWidthDivide
         let height = Int(collectionView.bounds.height) / Constants.ControllerInfo.mainCollectionHeightDivide
         return CGSize(width: width, height: height)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailVC = DetailViewController()
-        detailVC.movie = viewModel.movieRelay.value[indexPath.item]
-        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
